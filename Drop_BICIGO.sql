@@ -1,49 +1,48 @@
--- Eliminar tablas en orden inverso de dependencia para evitar conflictos de FK
+-- Borrar tablas que tienen claves foráneas a otras
+-- Se listan en orden inverso de sus dependencias para evitar errores de restricción.
 
--- Tablas de Reseñas y Multimedia
-DROP TABLE IF EXISTS [Multimedia];
-DROP TABLE IF EXISTS [Reseña];
+DROP TABLE [Transaccion];
+DROP TABLE [Incidente];
+DROP TABLE [Multimedia];
+DROP TABLE [Reseña];
+DROP TABLE [Objeto_reseñable];
 
--- Tablas de Métodos de Pago
-DROP TABLE IF EXISTS [Métodos_de_pago_del_usuario];
-DROP TABLE IF EXISTS [Billetera_virtual];
-DROP TABLE IF EXISTS [Tarjeta];
-DROP TABLE IF EXISTS [Efectivo];
-DROP TABLE IF EXISTS [Metodo_de_pago];
-DROP TABLE IF EXISTS [Tipo_de_metodo];
+-- Métodos de pago y sus subtipos
+DROP TABLE [Métodos_de_pago_del_usuario];
+DROP TABLE [Billetera_virtual];
+DROP TABLE [Tarjeta];
+DROP TABLE [Efectivo];
+DROP TABLE [Metodo_de_pago];
+DROP TABLE [Tipo_de_metodo];
 
--- Tablas de Mantenimiento y Bicicleta
-DROP TABLE IF EXISTS [Mantenimiento];
-DROP TABLE IF EXISTS [Bicicleta];
-DROP TABLE IF EXISTS [Tarifa_base];
-DROP TABLE IF EXISTS [Seguro];
+-- Bicicletas, Reservas y sus dependencias
+DROP TABLE [Mantenimiento];
+DROP TABLE [Reserva];
+DROP TABLE [Bicicleta];
+DROP TABLE [Regla_operativa];
+DROP TABLE [Tarifa_base];
+DROP TABLE [Tipo_de_bicicleta];
+DROP TABLE [Seguro];
+DROP TABLE [Plan];
 
--- Tablas de Planes (especializaciones)
-DROP TABLE IF EXISTS [Semanal];
-DROP TABLE IF EXISTS [Anual];
-DROP TABLE IF EXISTS [Mensual];
-DROP TABLE IF EXISTS [Por_dia];
-DROP TABLE IF EXISTS [Por_hora];
+-- Rutas y Puntos de Interés
+DROP TABLE [Recorrido_de_ruta];
+DROP TABLE [Punto_de_interes];
+DROP TABLE [Ruta_turistica];
 
--- Tablas de Rutas
-DROP TABLE IF EXISTS [Punto_de_interés];
-DROP TABLE IF EXISTS [Ruta_Prestador];
-DROP TABLE IF EXISTS [Rutas];
+-- Personas y sus subtipos
+DROP TABLE [Prestador_de_servicio];
+DROP TABLE [Usuario];
+DROP TABLE [Contacto];
+DROP TABLE [Persona];
+DROP TABLE [Tipo_de_persona];
 
--- Tablas de Personas (Usuario, Prestador y relacionadas)
-DROP TABLE IF EXISTS [Horario_de_atencion];
-DROP TABLE IF EXISTS [Prestador_de_servicio];
-DROP TABLE IF EXISTS [Usuario];
-DROP TABLE IF EXISTS [Contacto];
-DROP TABLE IF EXISTS [Persona];
-DROP TABLE IF EXISTS [Tipo_de_persona];
+-- Puntos de Alquiler y Horarios
+DROP TABLE [Horario_punto];
+DROP TABLE [Horario_de_atencion];
+DROP TABLE [Punto_de_alquiler];
 
--- Tablas de Alquiler y Planes (generales)
-DROP TABLE IF EXISTS [Punto_de_alquiler];
-DROP TABLE IF EXISTS [Plan];
-DROP TABLE IF EXISTS [Tipo_de_plan];
-
--- Tablas de Ubicación (base)
-DROP TABLE IF EXISTS [Ciudad];
-DROP TABLE IF EXISTS [Departamento];
-DROP TABLE IF EXISTS [Pais];
+-- Estructura Geográfica (País, Departamento, Ciudad)
+DROP TABLE [Ciudad];
+DROP TABLE [Departamento];
+DROP TABLE [Pais];

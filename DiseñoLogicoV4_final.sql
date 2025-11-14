@@ -21,23 +21,23 @@ CREATE TABLE [Ciudad] (
 	CONSTRAINT [FK_Ciudad_Departamento] FOREIGN KEY ([id_departamento]) REFERENCES [Departamento]([id_departamento])
 );
 
-CREATE TABLE [Tipo_de_plan] (
-	[id_tipo_plan] int IDENTITY(1,1) NOT NULL,
-	[nombre] nvarchar(50) NOT NULL,
-	PRIMARY KEY ([id_tipo_plan]),
-	CONSTRAINT [CK_Tipo_Plan_Nombre] CHECK ([nombre] IN ('Por hora', 'Por día', 'Semanal', 'Mensual', 'Anual'))
-);
+
 
 CREATE TABLE [Plan] (
 	[id_plan] int IDENTITY(1,1) NOT NULL,
-	[Descripcion] nvarchar(200) NULL, 
-	[estado] nvarchar(10) NOT NULL, 
-	[tarifa] decimal(10, 2) NOT NULL, 
-	[Politicas_de_reembolso] nvarchar(max) NULL, 
-	[id_tipo_plan] int NOT NULL,
+	[nombre_comercial_del_plan] nvarchar(max) NOT NULL,
+	[descuentos_aplicables] float(53) NOT NULL,
+	[indicador_si_incluye_seguro] nvarchar(max) NOT NULL,
+	[categoria_de_bicicletas_incluidas] nvarchar(max) NOT NULL,
+	[duración_incluida] datetime NOT NULL,
+	[tipo_de_plan] nvarchar(max) NOT NULL,
+	[Descripcion] nvarchar(max) NOT NULL,
+	[estado_del_plan] nvarchar(50) NOT NULL,
+	[precio_del_paquete] int NOT NULL,
+	[beneficios_adicionales] nvarchar(max) NOT NULL,
+	[restricciones_de_uso] nvarchar(max) NOT NULL,
 	PRIMARY KEY ([id_plan]),
-	CONSTRAINT [FK_Plan_TipoPlan] FOREIGN KEY ([id_tipo_plan]) REFERENCES [Tipo_de_plan]([id_tipo_plan]),
-	CONSTRAINT [CK_Plan_Estado] CHECK ([estado] IN ('Activo', 'Inactivo'))
+	CONSTRAINT [CK_Plan_Estado] CHECK ([estado_del_plan] IN ('Activo', 'Inactivo'))
 );
 
 CREATE TABLE [Punto_de_alquiler] (
@@ -54,9 +54,10 @@ CREATE TABLE [Punto_de_alquiler] (
 	CONSTRAINT [CK_PuntoAlquiler_Capacidad] CHECK ([Numero_de_bicicletas_almacenadas] <= [Capacidad_total_de_bicicletas])
 );
 
+
 CREATE TABLE [Tipo_de_persona] (
 	[id_tipo_de_persona] int IDENTITY(1,1) NOT NULL,
-	[Nombre] nvarchar(50) NOT NULL CHECK ([Nombre] IN ('Usuario', 'Prestador de servicio')),
+	[Nombre_tipo] nvarchar(50) NOT NULL CHECK ([Nombre_tipo] IN ('Usuario', 'Prestador de servicio')),
 	PRIMARY KEY ([id_tipo_de_persona])
 );
 
@@ -64,16 +65,13 @@ CREATE TABLE [Persona] (
 	[id_persona] int IDENTITY(1,1) NOT NULL,
 	[nombre] nvarchar(50) NOT NULL,
 	[apellido] nvarchar(50) NOT NULL,
-	[correo] nvarchar(100) NOT NULL UNIQUE,
 	[fecha_nacimiento] date NOT NULL,
 	[Sexo] nvarchar(20) NOT NULL,
 	[id_Tipo_de_persona] int NOT NULL,
-	[Acepta_terminos] bit NULL, 
 	PRIMARY KEY ([id_persona]),
 	CONSTRAINT [FK_Persona_Tipo] FOREIGN KEY ([id_Tipo_de_persona]) REFERENCES [Tipo_de_persona]([id_tipo_de_persona]),
 	CONSTRAINT [CK_Persona_Sexo] CHECK ([Sexo] IN ('Masculino', 'Femenino')),
-	CONSTRAINT [CK_Persona_Edad] CHECK (DATEDIFF(year, [fecha_nacimiento], GETDATE()) >= 18),
-	CONSTRAINT [CK_Persona_Terminos] CHECK ([Acepta_terminos] = 1 OR [Acepta_terminos] IS NULL)
+	CONSTRAINT [CK_Persona_Edad] CHECK (DATEDIFF(year, [fecha_nacimiento], GETDATE()) >= 18)
 );
 
 CREATE TABLE [Contacto] (
@@ -86,35 +84,30 @@ CREATE TABLE [Contacto] (
 
 CREATE TABLE [Usuario] (
 	[id_persona] int NOT NULL,
+	[correo] nvarchar(100) NOT NULL UNIQUE,
 	[Contraseña] nvarchar(max) NOT NULL,
-	[id_plan] int NOT NULL,
 	PRIMARY KEY ([id_persona]),
 	CONSTRAINT [FK_Usuario_Persona] FOREIGN KEY ([id_persona]) REFERENCES [Persona]([id_persona]),
-	CONSTRAINT [FK_Usuario_Plan] FOREIGN KEY ([id_plan]) REFERENCES [Plan]([id_plan])
-);
-
-CREATE TABLE [Prestador_de_servicio] (
-	[id_persona] int NOT NULL, 
-	[Tipo_de_servicio] nvarchar(max) NOT NULL, 
-	[id_Punto_de_alquiler] int NULL, 
-	PRIMARY KEY ([id_persona]),
-	CONSTRAINT [FK_Prestador_Persona] FOREIGN KEY ([id_persona]) REFERENCES [Persona]([id_persona]),
-	CONSTRAINT [FK_Prestador_Punto_Alquiler] FOREIGN KEY ([id_Punto_de_alquiler]) REFERENCES [Punto_de_alquiler]([id_punto_de_alquiler])
-	ON DELETE SET NULL
 );
 
 CREATE TABLE [Horario_de_atencion] (
 	[id_horario] int IDENTITY(1,1) NOT NULL,
-	[id_punto_de_alquiler] int NOT NULL,
 	[dia_semana] nvarchar(20) NOT NULL,
 	[hora_apertura] time(7) NOT NULL,
 	[hora_cierre] time(7) NOT NULL,
-	PRIMARY KEY ([id_horario]),
-	CONSTRAINT [FK_Horario_PuntoAlquiler] FOREIGN KEY ([id_punto_de_alquiler]) REFERENCES [Punto_de_alquiler]([id_punto_de_alquiler])
-	ON DELETE CASCADE
+	PRIMARY KEY ([id_horario])	
 );
 
-CREATE TABLE [Rutas] (
+CREATE TABLE [Horario_punto] (
+	[id_horario_punto] int IDENTITY(1,1) NOT NULL,
+	[id_horario] int NOT NULL,
+	[id_punto_de_alquiler] int NOT NULL,
+	PRIMARY KEY([id_horario_punto]),
+	CONSTRAINT [FK_Horario_PuntoAlquiler] FOREIGN KEY ([id_punto_de_alquiler]) REFERENCES [Punto_de_alquiler]([id_punto_de_alquiler]),
+	CONSTRAINT [FK_HorarioPunto_Horario] FOREIGN KEY ([id_horario]) REFERENCES [Horario_de_atencion]([id_horario])
+);
+
+CREATE TABLE [Ruta_turistica] (
 	[id_ruta] int IDENTITY(1,1) NOT NULL,
 	[Nombre] nvarchar(max) NOT NULL,
 	[Nivel_de_dificultad] nvarchar(10) NOT NULL, 
@@ -124,67 +117,38 @@ CREATE TABLE [Rutas] (
 	CONSTRAINT [CK_Rutas_Dificultad] CHECK ([Nivel_de_dificultad] IN ('Fácil', 'Moderado', 'Difícil'))
 );
 
-CREATE TABLE [Ruta_Prestador] (
-    [id_ruta] int NOT NULL,
-    [id_prestador] int NOT NULL,
-    PRIMARY KEY ([id_ruta], [id_prestador]),
-    CONSTRAINT [FK_RutaPrestador_Ruta] FOREIGN KEY ([id_ruta]) REFERENCES [Rutas]([id_ruta]),
-    CONSTRAINT [FK_RutaPrestador_Prestador] FOREIGN KEY ([id_prestador]) REFERENCES [Prestador_de_servicio]([id_persona])
-);
 
-CREATE TABLE [Punto_de_interés] (
-	[id_punto_de_interés] int IDENTITY(1,1) NOT NULL,
+
+CREATE TABLE [Punto_de_interes] (
+	[id_punto_de_interes] int IDENTITY(1,1) NOT NULL,
 	[Nombre] nvarchar(max) NOT NULL,
 	[Orden_secuencial_en_la_ruta] int NOT NULL,
 	[coordenadas_geograficas] nvarchar(max) NOT NULL,
 	[Descripción] nvarchar(100) NOT NULL, 
-	[id_Ruta] int NOT NULL,
-	PRIMARY KEY ([id_punto_de_interés]),
-	CONSTRAINT [FK_PuntoInteres_Ruta] FOREIGN KEY ([id_Ruta]) REFERENCES [Rutas]([id_ruta])
+	PRIMARY KEY ([id_punto_de_interes])
 );
 
-CREATE TABLE [Por_hora] (
-	[id_plan] int NOT NULL,
-	[Duracion_maxima] decimal(18,0) NOT NULL,
-	[Duracion_minima] decimal(18,0) NOT NULL,
-	[Tarifa_por_fraccion_adicional] int NOT NULL,
-	PRIMARY KEY ([id_plan]),
-	CONSTRAINT [FK_Por_Hora_Plan] FOREIGN KEY ([id_plan]) REFERENCES [Plan]([id_plan])
+CREATE TABLE [Recorrido_de_ruta] (
+	[id_recorrido_de_ruta] int NOT NULL,
+	[id_ruta] int NOT NULL,
+	[id_punto_de_interes] int NOT NULL,
+	PRIMARY KEY ([id_recorrido_de_ruta]),
+	CONSTRAINT [FK_Recorrido_Ruta] FOREIGN KEY ([id_ruta]) REFERENCES [Ruta_turistica]([id_ruta]),
+	CONSTRAINT [FK_Recorrido_Punto] FOREIGN KEY ([id_punto_de_interes]) REFERENCES [Punto_de_interes]([id_punto_de_interes])
 );
 
-CREATE TABLE [Por_dia] (
-	[id_plan] int NOT NULL,
-	[Costo_extra_por_extender_al_dia_siguiente] int NOT NULL,
-	[Hora_limite_de_devolución] time(7) NOT NULL,
-	PRIMARY KEY ([id_plan]),
-	CONSTRAINT [FK_Por_Dia_Plan] FOREIGN KEY ([id_plan]) REFERENCES [Plan]([id_plan])
+CREATE TABLE [Prestador_de_servicio] (
+	[id_persona] int NOT NULL, 
+	[Tipo_de_servicio] nvarchar(max) NOT NULL, 
+	[id_Punto_de_alquiler] int NULL,
+	[id_ruta] int NULL,
+	PRIMARY KEY ([id_persona]),
+	CONSTRAINT [FK_Prestador_Ruta] FOREIGN KEY ([id_ruta]) REFERENCES [Ruta_turistica]([id_ruta]),
+	CONSTRAINT [FK_Prestador_Persona] FOREIGN KEY ([id_persona]) REFERENCES [Persona]([id_persona]),
+	CONSTRAINT [FK_Prestador_Punto_Alquiler] FOREIGN KEY ([id_Punto_de_alquiler]) REFERENCES [Punto_de_alquiler]([id_punto_de_alquiler])
+	ON DELETE SET NULL
 );
 
-CREATE TABLE [Mensual] (
-	[id_plan] int NOT NULL,
-	[Confirmación_de_reenovación_automatica] nvarchar(2) NOT NULL, 
-	[Descuento_especial] float(53) NOT NULL,
-	PRIMARY KEY ([id_plan]),
-	CONSTRAINT [FK_Mensual_Plan] FOREIGN KEY ([id_plan]) REFERENCES [Plan]([id_plan]),
-	CONSTRAINT [CK_Mensual_Renovacion] CHECK ([Confirmación_de_reenovación_automatica] IN ('Si', 'No'))
-);
-
-CREATE TABLE [Anual] (
-	[id_plan] int NOT NULL,
-	[Confirmación_de_reenovación_automatica] nvarchar(2) NOT NULL, 
-	[Descuento_especial] float(53) NOT NULL,
-	PRIMARY KEY ([id_plan]),
-	CONSTRAINT [FK_Anual_Plan] FOREIGN KEY ([id_plan]) REFERENCES [Plan]([id_plan]),
-	CONSTRAINT [CK_Anual_Renovacion] CHECK ([Confirmación_de_reenovación_automatica] IN ('Si', 'No'))
-);
-
-CREATE TABLE [Semanal] (
-	[id_plan] int NOT NULL,
-	[Número_de_semanas_inlcluidas] int NOT NULL,
-	[Días_especificos_en_que_aplica] nvarchar(max) NOT NULL,
-	PRIMARY KEY ([id_plan]),
-	CONSTRAINT [FK_Semanal_Plan] FOREIGN KEY ([id_plan]) REFERENCES [Plan]([id_plan])
-);
 
 CREATE TABLE [Seguro] (
 	[id_seguro] int IDENTITY(1,1) NOT NULL,
@@ -199,23 +163,21 @@ CREATE TABLE [Seguro] (
 	CONSTRAINT [CK_Seguro_Monto] CHECK ([Monto_maximo_de_indemnización] > 0)
 );
 
-CREATE TABLE [Tarifa_base] (
-	[id_tarifa_base] int IDENTITY(1,1) NOT NULL,
-	[Tipo_de_uso] nvarchar(10) NOT NULL, 
-	[Tipo_de_asistencia] nvarchar(15) NOT NULL, 
-	[Precio_base] decimal(10, 2) NOT NULL, 
-	PRIMARY KEY ([id_tarifa_base]),
-	CONSTRAINT [CK_Tarifa_Uso] CHECK ([Tipo_de_uso] IN ('montaña', 'urbana', 'de ruta')),
-	CONSTRAINT [CK_Tarifa_Asistencia] CHECK ([Tipo_de_asistencia] IN ('Eléctrica', 'Convencional')),
-	CONSTRAINT [CK_Tarifa_Precios] CHECK (
-        ([Tipo_de_asistencia] = 'Convencional' AND [Tipo_de_uso] = 'montaña' AND [Precio_base] = 60000) OR
-        ([Tipo_de_asistencia] = 'Convencional' AND [Tipo_de_uso] = 'urbana' AND [Precio_base] = 45000) OR
-        ([Tipo_de_asistencia] = 'Convencional' AND [Tipo_de_uso] = 'de ruta' AND [Precio_base] = 70000) OR
-        ([Tipo_de_asistencia] = 'Eléctrica' AND [Tipo_de_uso] = 'montaña' AND [Precio_base] = 120000) OR
-        ([Tipo_de_asistencia] = 'Eléctrica' AND [Tipo_de_uso] = 'urbana' AND [Precio_base] = 90000) OR
-        ([Tipo_de_asistencia] = 'Eléctrica' AND [Tipo_de_uso] = 'de ruta' AND [Precio_base] = 140000)
-    )
+CREATE TABLE [Tipo_de_bicicleta] (
+	[id_tipo_de_bicicleta] int IDENTITY(1,1) NOT NULL,
+	[Tipo_de_uso] nvarchar(max) NOT NULL,
+	[Tipo_de_asistencia] nvarchar(max) NOT NULL,
+	PRIMARY KEY ([id_tipo_de_bicicleta])
 );
+
+CREATE TABLE [Tarifa_base] (
+	[id_tarifa_base] int IDENTITY(1,1) NOT NULL UNIQUE,
+	[Precio_base] int NOT NULL,
+	[id_tipo_de_bicicleta] int NOT NULL,
+	PRIMARY KEY ([id_tarifa_base]),
+	CONSTRAINT [FK_Tarifa_Tipo] FOREIGN KEY ([id_tipo_de_bicicleta]) REFERENCES [Tipo_de_bicicleta]([id_tipo_de_bicicleta])
+);
+
 
 CREATE TABLE [Regla_operativa] (
 	[id_regla_operativa] int IDENTITY(1,1) NOT NULL UNIQUE,
@@ -226,13 +188,6 @@ CREATE TABLE [Regla_operativa] (
 	[estado_de_la_configuración] nvarchar(max) NOT NULL,
 	[restricciones_especiales_de_uso] nvarchar(max),
 	PRIMARY KEY ([id_regla_operativa])
-);
-
-CREATE TABLE [Tipo_de_bicicleta] (
-	[id_tipo_de_bicicleta] int IDENTITY(1,1) NOT NULL,
-	[Tipo_de_uso] nvarchar(max) NOT NULL,
-	[Tipo_de_asistencia] nvarchar(max) NOT NULL,
-	PRIMARY KEY ([id_tipo_de_bicicleta])
 );
 
 CREATE TABLE [Bicicleta] (
@@ -248,12 +203,37 @@ CREATE TABLE [Bicicleta] (
 	[id_tipo_de_bicicleta] int NOT NULL, 
 	[id_punto_de_alquiler] int NOT NULL, 
 	[id_Seguro] int NULL, 
-	[id_tarifa_base] int NOT NULL, 
+	[id_tarifa_base] int NOT NULL,
+	[id_regla_operativa] int NOT NULL, 
 	PRIMARY KEY ([id_bicicleta]),
 	CONSTRAINT [FK_Bicicleta_Tipo] FOREIGN KEY ([id_tipo_de_bicicleta]) REFERENCES [Tipo_de_bicicleta]([id_tipo_de_bicicleta]),
 	CONSTRAINT [FK_Bicicleta_Punto_Alquiler] FOREIGN KEY ([id_punto_de_alquiler]) REFERENCES [Punto_de_alquiler]([id_punto_de_alquiler]),
 	CONSTRAINT [FK_Bicicleta_Seguro] FOREIGN KEY ([id_Seguro]) REFERENCES [Seguro]([id_seguro]),
-	CONSTRAINT [FK_Bicicleta_Tarifa] FOREIGN KEY ([id_tarifa_base]) REFERENCES [Tarifa_base]([id_tarifa_base])
+	CONSTRAINT [FK_Bicicleta_Tarifa] FOREIGN KEY ([id_tarifa_base]) REFERENCES [Tarifa_base]([id_tarifa_base]),
+	CONSTRAINT [FK_Bicicleta_Regla] FOREIGN KEY ([id_regla_operativa]) REFERENCES [Regla_operativa]([id_regla_operativa])
+);
+
+CREATE TABLE [Reserva] (
+	[id_reserva] int IDENTITY(1,1) NOT NULL UNIQUE,
+	[fecha_de_inicio_de_reserva] date NOT NULL,
+	[fecha_de_hora_de_reserva] date NOT NULL,
+	[fecha_de_fin_esperada] date NOT NULL,
+	[estado_de_la_reserva] nvarchar(max) NOT NULL,
+	[hora_de_devolución_real] datetime NOT NULL,
+	[fecha_de_devolución_real] date NOT NULL,
+	[hora_de_fin_esperada] datetime NOT NULL,
+	[costo_total_reserva_caluclado] int NOT NULL,
+	[id_plan] int NOT NULL,
+	[id_usuario] int NOT NULL,
+	[id_bicicleta] int NOT NULL,
+	[id_punto_de_alquiler] int NOT NULL,
+	[id_ruta] int NOT NULL,
+	PRIMARY KEY ([id_reserva]),
+	CONSTRAINT [FK_Reserva_Plan] FOREIGN KEY ([id_plan]) REFERENCES [Plan]([id_plan]),
+	CONSTRAINT [FK_Reserva_Usuario] FOREIGN KEY ([id_usuario]) REFERENCES [Usuario]([id_persona]),
+	CONSTRAINT [FK_Reserva_Bicicleta] FOREIGN KEY ([id_bicicleta]) REFERENCES [Bicicleta]([id_bicicleta]),
+	CONSTRAINT [FK_Reserva_Punto] FOREIGN KEY ([id_punto_de_alquiler]) REFERENCES [Punto_de_alquiler]([id_punto_de_alquiler]),
+	CONSTRAINT [FK_Reserva_Ruta] FOREIGN KEY ([id_ruta]) REFERENCES [Ruta_turistica]([id_ruta])
 );
 
 CREATE TABLE [Mantenimiento] (
@@ -326,33 +306,15 @@ CREATE TABLE [Métodos_de_pago_del_usuario] (
 	CONSTRAINT [FK_MetodoUsuario_MetodoPago] FOREIGN KEY ([id_metodo_pago]) REFERENCES [Metodo_de_pago]([id_metodo_pago])
 	ON DELETE CASCADE
 );
-
-CREATE TABLE [Reseña] (
-	[id_reseña] int IDENTITY(1,1) NOT NULL,
-	[Calificación] decimal(2, 1) NULL, 
-	[Fecha_de_publicación] date NOT NULL,
-	[Texto_de_comentario] nvarchar(max) NOT NULL,
-	[Estado_de_revisión] nvarchar(10) NOT NULL, 
-	[id_Usuario] int NOT NULL, 
-	[id_Prestador_de_servicio] int NULL,
-	[id_Ruta] int NULL,
-	[id_Bicicleta] int NULL,
-	PRIMARY KEY ([id_reseña]),
-	CONSTRAINT [CK_Reseña_Calificacion] CHECK ([Calificación] >= 1.0 AND [Calificación] <= 5.0),
-	CONSTRAINT [CK_Reseña_Estado] CHECK ([Estado_de_revisión] IN ('Pendiente', 'Aprobada', 'Rechazada')),
-	CONSTRAINT [CK_Reseña_Target] CHECK (
-        [id_Prestador_de_servicio] IS NOT NULL OR 
-        [id_Ruta] IS NOT NULL OR 
-        [id_Bicicleta] IS NOT NULL
-    ),
-	CONSTRAINT [FK_Reseña_Usuario] FOREIGN KEY ([id_Usuario]) REFERENCES [Usuario]([id_persona])
-	ON DELETE CASCADE,
-	CONSTRAINT [FK_Reseña_Prestador] FOREIGN KEY ([id_Prestador_de_servicio]) REFERENCES [Prestador_de_servicio]([id_persona])
-	ON DELETE CASCADE,
-	CONSTRAINT [FK_Reseña_Ruta] FOREIGN KEY ([id_Ruta]) REFERENCES [Rutas]([id_ruta])
-	ON DELETE CASCADE,
-	CONSTRAINT [FK_Reseña_Bicicleta] FOREIGN KEY ([id_Bicicleta]) REFERENCES [Bicicleta]([id_bicicleta])
-	ON DELETE CASCADE
+CREATE TABLE [Objeto_reseñable] (
+	[id_objeto_reseñable] int IDENTITY(1,1) NOT NULL,
+	[id_bicicleta] int NULL,
+	[id_persona] int NULL,
+	[id_ruta] int NULL,
+	PRIMARY KEY ([id_objeto_reseñable]),
+	CONSTRAINT [FK_Objeto_Bicicleta] FOREIGN KEY ([id_bicicleta]) REFERENCES [Bicicleta]([id_bicicleta]),
+	CONSTRAINT [FK_Objeto_Prestador] FOREIGN KEY ([id_persona]) REFERENCES [Prestador_de_servicio]([id_persona]),
+	CONSTRAINT [FK_Objeto_Ruta] FOREIGN KEY ([id_ruta]) REFERENCES [Ruta_turistica]([id_ruta])
 );
 
 CREATE TABLE [Multimedia] (
@@ -361,12 +323,58 @@ CREATE TABLE [Multimedia] (
 	[Tamaño] bigint NOT NULL, 
 	[Formato_de_archivo] nvarchar(5) NOT NULL, 
 	[Fecha_de_subida] date NOT NULL,
-	[Foto_o_video] nvarchar(max) NOT NULL, 
-	[idReseña] int NOT NULL, 
+	[Foto_o_video] nvarchar(max) NOT NULL,  
 	PRIMARY KEY ([id_multimedia]),
-	CONSTRAINT [FK_Multimedia_Reseña] FOREIGN KEY ([idReseña]) REFERENCES [Reseña]([id_reseña])
-	ON DELETE CASCADE,
 	CONSTRAINT [CK_Multimedia_Estado] CHECK ([Estado_de_revision] IN ('Pendiente', 'Aprobado', 'Rechazado')),
 	CONSTRAINT [CK_Multimedia_Tamaño] CHECK ([Tamaño] <= 60000000), 
 	CONSTRAINT [CK_Multimedia_Formato] CHECK ([Formato_de_archivo] IN ('JPG', 'JPEG', 'PNG', 'WEBP', 'MP4'))
 );	
+
+CREATE TABLE [Reseña] (
+	[id_reseña] int IDENTITY(1,1) NOT NULL,
+	[Calificación] decimal(2, 1) NULL, 
+	[Fecha_de_publicación] date NOT NULL,
+	[Texto_de_comentario] nvarchar(max) NOT NULL,
+	[Estado_de_revisión] nvarchar(10) NOT NULL,
+	[id_usuario] int NOT NULL,
+	[id_multimedia] int NULL,
+	[id_objeto_reseñable] int NOT NULL,
+	PRIMARY KEY ([id_reseña]),
+	CONSTRAINT [CK_Reseña_Calificacion] CHECK ([Calificación] >= 1.0 AND [Calificación] <= 5.0),
+	CONSTRAINT [CK_Reseña_Estado] CHECK ([Estado_de_revisión] IN ('Pendiente', 'Aprobada', 'Rechazada')),
+	CONSTRAINT [FK_Reseña_Usuario] FOREIGN KEY ([id_usuario]) REFERENCES [Usuario]([id_persona]),
+	CONSTRAINT [FK_Reseña_Multimedia] FOREIGN KEY ([id_multimedia]) REFERENCES [Multimedia]([id_multimedia]),
+	CONSTRAINT [FK_Reseña_Objeto] FOREIGN KEY ([id_objeto_reseñable]) REFERENCES [Objeto_reseñable]([id_objeto_reseñable])
+);
+
+
+CREATE TABLE [Incidente] (
+	[id_incidente] int IDENTITY(1,1) NOT NULL,
+	[tipo_de_incidente] nvarchar(max) NOT NULL,
+	[descripción] nvarchar(max) NOT NULL,
+	[ubicación_donde_ocurrio] nvarchar(max) NOT NULL,
+	[fecha_de_incidente] date NOT NULL,
+	[foto] varbinary(max),
+	[prioridad] nvarchar(max) NOT NULL,
+	[estado_de_incidente] nvarchar(max) NOT NULL,
+	[hora_de_incidente] datetime NOT NULL,
+	[id_persona] int NOT NULL,
+	[id_reserva] int NOT NULL,
+	PRIMARY KEY ([id_incidente]),
+	CONSTRAINT [FK_Incidente_Servicio] FOREIGN KEY ([id_persona]) REFERENCES [Prestador_de_servicio]([id_persona]),
+	CONSTRAINT [FK_Incidente_Reserva] FOREIGN KEY ([id_reserva]) REFERENCES [Reserva]([id_reserva])
+);
+
+CREATE TABLE [Transaccion] (
+	[id_transaccion] int IDENTITY(1,1) NOT NULL,
+	[monto_total_cobrado] int NOT NULL,
+	[tipo_de_transacción] nvarchar(max) NOT NULL,
+	[observaciones_adicionales] nvarchar(max) NOT NULL,
+	[fecha_de_transacción] date NOT NULL,
+	[hora_de_transacción] datetime NOT NULL,
+	[estado_de_transacción] nvarchar(max) NOT NULL,
+	[referencia_de_pago] nvarchar(max) NOT NULL,
+	[id_reserva] int NOT NULL,
+	PRIMARY KEY ([id_transaccion]),
+	CONSTRAINT [FK_Transaccion_Reserva] FOREIGN KEY ([id_reserva]) REFERENCES [Reserva]([id_reserva])
+);
