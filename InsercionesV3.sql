@@ -1,333 +1,371 @@
--- ============================================
+-- =============================================
 -- INSERCIONES PARA SISTEMA DE ALQUILER DE BICICLETAS
--- ============================================
+-- =============================================
 
--- Tabla: Pais
+-- TABLAS DE UBICACIÓN GEOGRÁFICA
+-- =============================================
+
+-- País
 INSERT INTO [Pais] ([Nombre_Pais]) VALUES ('Colombia');
-INSERT INTO [Pais] ([Nombre_Pais]) VALUES ('Argentina');
-INSERT INTO [Pais] ([Nombre_Pais]) VALUES ('México');
+INSERT INTO [Pais] ([Nombre_Pais]) VALUES ('Ecuador');
+INSERT INTO [Pais] ([Nombre_Pais]) VALUES ('Perú');
 
--- Tabla: Departamento
-INSERT INTO [Departamento] ([Nombre_Departamento], [idPais]) VALUES ('Magdalena', 1);
-INSERT INTO [Departamento] ([Nombre_Departamento], [idPais]) VALUES ('Buenos Aires', 2);
-INSERT INTO [Departamento] ([Nombre_Departamento], [idPais]) VALUES ('Ciudad de México', 3);
+-- Departamento
+INSERT INTO [Departamento] ([Nombre_Departamento], [id_pais]) VALUES ('Magdalena', 1);
+INSERT INTO [Departamento] ([Nombre_Departamento], [id_pais]) VALUES ('Atlántico', 1);
+INSERT INTO [Departamento] ([Nombre_Departamento], [id_pais]) VALUES ('Bolívar', 1);
 
--- Tabla: Ciudad
-INSERT INTO [Ciudad] ([Nombre_Ciudad], [idDepartamento]) VALUES ('Santa Marta', 1);
-INSERT INTO [Ciudad] ([Nombre_Ciudad], [idDepartamento]) VALUES ('La Plata', 2);
-INSERT INTO [Ciudad] ([Nombre_Ciudad], [idDepartamento]) VALUES ('Coyoacán', 3);
+-- Ciudad
+INSERT INTO [Ciudad] ([Nombre_Ciudad], [id_departamento]) VALUES ('Santa Marta', 1);
+INSERT INTO [Ciudad] ([Nombre_Ciudad], [id_departamento]) VALUES ('Barranquilla', 2);
+INSERT INTO [Ciudad] ([Nombre_Ciudad], [id_departamento]) VALUES ('Cartagena', 3);
 
--- Tabla: Tipo_de_plan
-INSERT INTO [Tipo_de_plan] ([nombre]) VALUES ('Por hora');
-INSERT INTO [Tipo_de_plan] ([nombre]) VALUES ('Por día');
-INSERT INTO [Tipo_de_plan] ([nombre]) VALUES ('Mensual');
-INSERT INTO [Tipo_de_plan] ([nombre]) VALUES ('Semanal');
-INSERT INTO [Tipo_de_plan] ([nombre]) VALUES ('Anual');
-
--- Tabla: Plan (Necesitamos más planes para las bicicletas y usuarios)
--- Planes tipo "Por hora"
-INSERT INTO [Plan] ([Descripcion], [estado], [tarifa], [Politicas_de_reembolso], [id_tipo_plan]) 
-VALUES ('Plan básico por hora para usuarios ocasionales', 'Activo', 5000.00, 'Reembolso del 100% si se cancela con 24 horas de anticipación', 1);
-
-INSERT INTO [Plan] ([Descripcion], [estado], [tarifa], [Politicas_de_reembolso], [id_tipo_plan]) 
-VALUES ('Plan por hora económico', 'Activo', 4000.00, 'Reembolso del 80% con 12 horas de anticipación', 1);
-
-INSERT INTO [Plan] ([Descripcion], [estado], [tarifa], [Politicas_de_reembolso], [id_tipo_plan]) 
-VALUES ('Plan por hora premium', 'Activo', 7000.00, 'Reembolso total sin restricciones', 1);
-
--- Planes tipo "Por día"
-INSERT INTO [Plan] ([Descripcion], [estado], [tarifa], [Politicas_de_reembolso], [id_tipo_plan]) 
-VALUES ('Plan diario para turistas y visitantes', 'Activo', 35000.00, 'Reembolso del 50% si se cancela el mismo día', 2);
-
-INSERT INTO [Plan] ([Descripcion], [estado], [tarifa], [Politicas_de_reembolso], [id_tipo_plan]) 
-VALUES ('Plan diario básico', 'Activo', 30000.00, 'Reembolso del 60% con 6 horas de anticipación', 2);
-
-INSERT INTO [Plan] ([Descripcion], [estado], [tarifa], [Politicas_de_reembolso], [id_tipo_plan]) 
-VALUES ('Plan diario todo incluido', 'Activo', 45000.00, 'Reembolso del 70% el mismo día', 2);
-
--- Planes tipo "Mensual"
-INSERT INTO [Plan] ([Descripcion], [estado], [tarifa], [Politicas_de_reembolso], [id_tipo_plan]) 
-VALUES ('Plan mensual premium con descuentos especiales', 'Activo', 250000.00, 'No hay reembolso después de 7 días de uso', 3);
-
-INSERT INTO [Plan] ([Descripcion], [estado], [tarifa], [Politicas_de_reembolso], [id_tipo_plan]) 
-VALUES ('Plan mensual estándar', 'Activo', 200000.00, 'Reembolso proporcional los primeros 5 días', 3);
-
-INSERT INTO [Plan] ([Descripcion], [estado], [tarifa], [Politicas_de_reembolso], [id_tipo_plan]) 
-VALUES ('Plan mensual básico', 'Activo', 180000.00, 'Reembolso del 30% en los primeros 3 días', 3);
-
--- Planes tipo "Semanal"
-INSERT INTO [Plan] ([Descripcion], [estado], [tarifa], [Politicas_de_reembolso], [id_tipo_plan]) 
-VALUES ('Plan semanal fin de semana', 'Activo', 80000.00, 'Reembolso del 50% con 48 horas de anticipación', 4);
-
-INSERT INTO [Plan] ([Descripcion], [estado], [tarifa], [Politicas_de_reembolso], [id_tipo_plan]) 
-VALUES ('Plan semanal completo', 'Activo', 120000.00, 'Reembolso del 40% con 24 horas de anticipación', 4);
-
-INSERT INTO [Plan] ([Descripcion], [estado], [tarifa], [Politicas_de_reembolso], [id_tipo_plan]) 
-VALUES ('Plan semanal turista', 'Activo', 100000.00, 'Reembolso del 60% con 72 horas de anticipación', 4);
-
--- Planes tipo "Anual"
-INSERT INTO [Plan] ([Descripcion], [estado], [tarifa], [Politicas_de_reembolso], [id_tipo_plan]) 
-VALUES ('Plan anual VIP', 'Activo', 2000000.00, 'Reembolso proporcional los primeros 30 días', 5);
-
-INSERT INTO [Plan] ([Descripcion], [estado], [tarifa], [Politicas_de_reembolso], [id_tipo_plan]) 
-VALUES ('Plan anual corporativo', 'Activo', 1800000.00, 'Reembolso del 50% los primeros 15 días', 5);
-
-INSERT INTO [Plan] ([Descripcion], [estado], [tarifa], [Politicas_de_reembolso], [id_tipo_plan]) 
-VALUES ('Plan anual estudiante', 'Activo', 1500000.00, 'Reembolso del 70% los primeros 20 días', 5);
-
--- Tabla: Punto_de_alquiler
-INSERT INTO [Punto_de_alquiler] ([Capacidad_total_de_bicicletas], [Nombre], [Foto], [Direccion], [Coordenadas_geograficas], [Numero_de_bicicletas_almacenadas], [id_ciudad]) 
-VALUES (50, 'Estación Rodadero', 'https://ejemplo.com/foto_rodadero.jpg', 'Calle 11 #3-25, El Rodadero', '11.2094,-74.2272', 35, 1);
+-- PUNTOS DE ALQUILER
+-- =============================================
 
 INSERT INTO [Punto_de_alquiler] ([Capacidad_total_de_bicicletas], [Nombre], [Foto], [Direccion], [Coordenadas_geograficas], [Numero_de_bicicletas_almacenadas], [id_ciudad]) 
-VALUES (40, 'Estación Parque Tayrona', 'https://ejemplo.com/foto_tayrona.jpg', 'Entrada Principal Parque Tayrona', '11.3100,-74.0500', 28, 1);
+VALUES (50, 'Estación Rodadero', 'rodadero.jpg', 'Calle 11 # 1-20, El Rodadero', '11.2094,-74.2286', 35, 1);
 
 INSERT INTO [Punto_de_alquiler] ([Capacidad_total_de_bicicletas], [Nombre], [Foto], [Direccion], [Coordenadas_geograficas], [Numero_de_bicicletas_almacenadas], [id_ciudad]) 
-VALUES (30, 'Estación Centro Histórico', 'https://ejemplo.com/foto_centro.jpg', 'Carrera 5 #16-44, Centro', '11.2419,-74.2064', 20, 1);
+VALUES (40, 'Estación Parque Tayrona', 'tayrona.jpg', 'Entrada Principal Parque Tayrona', '11.3058,-74.0614', 28, 1);
 
--- Tabla: Tipo_de_persona
-INSERT INTO [Tipo_de_persona] ([Nombre]) VALUES ('Usuario');
-INSERT INTO [Tipo_de_persona] ([Nombre]) VALUES ('Prestador de servicio');
-INSERT INTO [Tipo_de_persona] ([Nombre]) VALUES ('Usuario');
+INSERT INTO [Punto_de_alquiler] ([Capacidad_total_de_bicicletas], [Nombre], [Foto], [Direccion], [Coordenadas_geograficas], [Numero_de_bicicletas_almacenadas], [id_ciudad]) 
+VALUES (60, 'Estación Centro Histórico', 'centro.jpg', 'Calle 17 # 3-45, Centro', '11.2404,-74.2120', 42, 1);
 
--- Tabla: Persona (Necesitamos más personas para múltiples usuarios)
--- Usuarios
-INSERT INTO [Persona] ([nombre], [apellido], [correo], [fecha_nacimiento], [Sexo], [id_Tipo_de_persona], [Acepta_terminos]) 
-VALUES ('Carlos', 'Martínez', 'carlos.martinez@email.com', '1990-05-15', 'Masculino', 1, 1);
+-- HORARIOS DE ATENCIÓN
+-- =============================================
 
-INSERT INTO [Persona] ([nombre], [apellido], [correo], [fecha_nacimiento], [Sexo], [id_Tipo_de_persona], [Acepta_terminos]) 
-VALUES ('Miguel', 'Rodríguez', 'miguel.rodriguez@email.com', '1995-12-03', 'Masculino', 1, 1);
+-- Horarios regulares (Lunes a Viernes)
+INSERT INTO [Horario_de_atencion] ([dia_semana], [hora_apertura], [hora_cierre]) VALUES ('Lunes', '06:00:00', '20:00:00');
+INSERT INTO [Horario_de_atencion] ([dia_semana], [hora_apertura], [hora_cierre]) VALUES ('Martes', '06:00:00', '20:00:00');
+INSERT INTO [Horario_de_atencion] ([dia_semana], [hora_apertura], [hora_cierre]) VALUES ('Miércoles', '06:00:00', '20:00:00');
+INSERT INTO [Horario_de_atencion] ([dia_semana], [hora_apertura], [hora_cierre]) VALUES ('Jueves', '06:00:00', '20:00:00');
+INSERT INTO [Horario_de_atencion] ([dia_semana], [hora_apertura], [hora_cierre]) VALUES ('Viernes', '06:00:00', '20:00:00');
 
-INSERT INTO [Persona] ([nombre], [apellido], [correo], [fecha_nacimiento], [Sexo], [id_Tipo_de_persona], [Acepta_terminos]) 
-VALUES ('Laura', 'Pérez', 'laura.perez@email.com', '1992-07-20', 'Femenino', 1, 1);
+-- Horarios fin de semana
+INSERT INTO [Horario_de_atencion] ([dia_semana], [hora_apertura], [hora_cierre]) VALUES ('Sábado', '07:00:00', '21:00:00');
+INSERT INTO [Horario_de_atencion] ([dia_semana], [hora_apertura], [hora_cierre]) VALUES ('Domingo', '08:00:00', '19:00:00');
 
--- Prestadores de servicio
-INSERT INTO [Persona] ([nombre], [apellido], [correo], [fecha_nacimiento], [Sexo], [id_Tipo_de_persona], [Acepta_terminos]) 
-VALUES ('Ana', 'García', 'ana.garcia@email.com', '1985-08-22', 'Femenino', 2, 1);
+-- Horario_punto (Asignar horarios a puntos)
+-- Estación Rodadero (7 días)
+INSERT INTO [Horario_punto] ([id_horario], [id_punto_de_alquiler]) VALUES (1, 1);
+INSERT INTO [Horario_punto] ([id_horario], [id_punto_de_alquiler]) VALUES (2, 1);
+INSERT INTO [Horario_punto] ([id_horario], [id_punto_de_alquiler]) VALUES (3, 1);
+INSERT INTO [Horario_punto] ([id_horario], [id_punto_de_alquiler]) VALUES (4, 1);
+INSERT INTO [Horario_punto] ([id_horario], [id_punto_de_alquiler]) VALUES (5, 1);
+INSERT INTO [Horario_punto] ([id_horario], [id_punto_de_alquiler]) VALUES (6, 1);
+INSERT INTO [Horario_punto] ([id_horario], [id_punto_de_alquiler]) VALUES (7, 1);
 
-INSERT INTO [Persona] ([nombre], [apellido], [correo], [fecha_nacimiento], [Sexo], [id_Tipo_de_persona], [Acepta_terminos]) 
-VALUES ('José', 'Mendoza', 'jose.mendoza@email.com', '1988-11-10', 'Masculino', 2, 1);
+-- Estación Tayrona (7 días)
+INSERT INTO [Horario_punto] ([id_horario], [id_punto_de_alquiler]) VALUES (1, 2);
+INSERT INTO [Horario_punto] ([id_horario], [id_punto_de_alquiler]) VALUES (2, 2);
+INSERT INTO [Horario_punto] ([id_horario], [id_punto_de_alquiler]) VALUES (3, 2);
+INSERT INTO [Horario_punto] ([id_horario], [id_punto_de_alquiler]) VALUES (4, 2);
+INSERT INTO [Horario_punto] ([id_horario], [id_punto_de_alquiler]) VALUES (5, 2);
+INSERT INTO [Horario_punto] ([id_horario], [id_punto_de_alquiler]) VALUES (6, 2);
+INSERT INTO [Horario_punto] ([id_horario], [id_punto_de_alquiler]) VALUES (7, 2);
 
-INSERT INTO [Persona] ([nombre], [apellido], [correo], [fecha_nacimiento], [Sexo], [id_Tipo_de_persona], [Acepta_terminos]) 
-VALUES ('María', 'López', 'maria.lopez@email.com', '1990-03-15', 'Femenino', 2, 1);
+-- Estación Centro (7 días)
+INSERT INTO [Horario_punto] ([id_horario], [id_punto_de_alquiler]) VALUES (1, 3);
+INSERT INTO [Horario_punto] ([id_horario], [id_punto_de_alquiler]) VALUES (2, 3);
+INSERT INTO [Horario_punto] ([id_horario], [id_punto_de_alquiler]) VALUES (3, 3);
 
--- Tabla: Contacto
-INSERT INTO [Contacto] ([Numero_telefonico], [id_persona]) VALUES ('+57 300 123 4567', 1);
-INSERT INTO [Contacto] ([Numero_telefonico], [id_persona]) VALUES ('+57 320 456 7890', 2);
-INSERT INTO [Contacto] ([Numero_telefonico], [id_persona]) VALUES ('+57 315 789 1234', 3);
-INSERT INTO [Contacto] ([Numero_telefonico], [id_persona]) VALUES ('+57 310 987 6543', 4);
-INSERT INTO [Contacto] ([Numero_telefonico], [id_persona]) VALUES ('+57 305 234 5678', 5);
-INSERT INTO [Contacto] ([Numero_telefonico], [id_persona]) VALUES ('+57 318 876 5432', 6);
+-- RUTAS TURÍSTICAS
+-- =============================================
 
--- Tabla: Usuario (Cada usuario tiene su propia persona)
-INSERT INTO [Usuario] ([id_persona], [Contraseña], [id_plan]) 
-VALUES (1, '$2a$12$KIXqNwPqJ9fR5Zx8vN5GuOYHJKLMNPqRsTuVwXyZ', 1);
+INSERT INTO [Ruta_turistica] ([Nombre], [Nivel_de_dificultad], [Distancia_total], [Descripcion]) 
+VALUES ('Ruta Playa y Mar', 'Fácil', 8, 'Recorrido costero por las principales playas de Santa Marta');
 
-INSERT INTO [Usuario] ([id_persona], [Contraseña], [id_plan]) 
-VALUES (2, '$2a$12$AbCdEfGhIjKlMnOpQrStUvWxYz123456789', 4);
+INSERT INTO [Ruta_turistica] ([Nombre], [Nivel_de_dificultad], [Distancia_total], [Descripcion]) 
+VALUES ('Ruta Sierra Nevada', 'Difícil', 25, 'Ascenso desafiante hacia las estribaciones de la Sierra Nevada');
 
-INSERT INTO [Usuario] ([id_persona], [Contraseña], [id_plan]) 
-VALUES (3, '$2a$12$ZyXwVuTsRqPoNmLkJiHgFeDcBa987654321', 7);
+INSERT INTO [Ruta_turistica] ([Nombre], [Nivel_de_dificultad], [Distancia_total], [Descripcion]) 
+VALUES ('Ruta Centro Histórico', 'Fácil', 5, 'Tour cultural por el centro histórico y monumentos principales');
 
--- Tabla: Prestador_de_servicio
-INSERT INTO [Prestador_de_servicio] ([id_persona], [Tipo_de_servicio], [id_Punto_de_alquiler]) 
-VALUES (4, 'Mantenimiento y reparación de bicicletas', 1);
+-- PUNTOS DE INTERÉS
+-- =============================================
 
-INSERT INTO [Prestador_de_servicio] ([id_persona], [Tipo_de_servicio], [id_Punto_de_alquiler]) 
-VALUES (5, 'Guía turístico en rutas ciclísticas', 2);
+-- Puntos de interés Ruta Playa y Mar
+INSERT INTO [Punto_de_interes] ([Nombre], [Orden_secuencial_en_la_ruta], [coordenadas_geograficas], [Descripción]) 
+VALUES ('Playa El Rodadero', 1, '11.2094,-74.2286', 'Playa principal de Santa Marta');
 
-INSERT INTO [Prestador_de_servicio] ([id_persona], [Tipo_de_servicio], [id_Punto_de_alquiler]) 
-VALUES (6, 'Atención al cliente y alquiler', 3);
+INSERT INTO [Punto_de_interes] ([Nombre], [Orden_secuencial_en_la_ruta], [coordenadas_geograficas], [Descripción]) 
+VALUES ('Acuario y Museo del Mar', 2, '11.2112,-74.2275', 'Centro de conservación marina');
 
--- Tabla: Horario_de_atencion
-INSERT INTO [Horario_de_atencion] ([id_punto_de_alquiler], [dia_semana], [hora_apertura], [hora_cierre]) 
-VALUES (1, 'Lunes', '06:00:00', '20:00:00');
+INSERT INTO [Punto_de_interes] ([Nombre], [Orden_secuencial_en_la_ruta], [coordenadas_geograficas], [Descripción]) 
+VALUES ('Bahía de Santa Marta', 3, '11.2436,-74.2186', 'Vista panorámica de la bahía');
 
-INSERT INTO [Horario_de_atencion] ([id_punto_de_alquiler], [dia_semana], [hora_apertura], [hora_cierre]) 
-VALUES (1, 'Sábado', '07:00:00', '22:00:00');
+-- Puntos de interés Ruta Sierra Nevada
+INSERT INTO [Punto_de_interes] ([Nombre], [Orden_secuencial_en_la_ruta], [coordenadas_geograficas], [Descripción]) 
+VALUES ('Minca Pueblo', 1, '11.1492,-74.1186', 'Pueblo cafetero en la sierra');
 
-INSERT INTO [Horario_de_atencion] ([id_punto_de_alquiler], [dia_semana], [hora_apertura], [hora_cierre]) 
-VALUES (2, 'Domingo', '08:00:00', '18:00:00');
+INSERT INTO [Punto_de_interes] ([Nombre], [Orden_secuencial_en_la_ruta], [coordenadas_geograficas], [Descripción]) 
+VALUES ('Cascada Marinka', 2, '11.1456,-74.1123', 'Cascada de 60 metros de altura');
 
--- Tabla: Rutas
-INSERT INTO [Rutas] ([Nombre], [Nivel_de_dificultad], [Distancia_total], [Descripcion]) 
-VALUES ('Ruta Costera Santa Marta', 'Fácil', 15, 'Recorrido por la bahía de Santa Marta con vistas al mar');
+INSERT INTO [Punto_de_interes] ([Nombre], [Orden_secuencial_en_la_ruta], [coordenadas_geograficas], [Descripción]) 
+VALUES ('Mirador Los Pinos', 3, '11.1389,-74.1045', 'Vista panorámica de Santa Marta');
 
-INSERT INTO [Rutas] ([Nombre], [Nivel_de_dificultad], [Distancia_total], [Descripcion]) 
-VALUES ('Ascenso Sierra Nevada', 'Difícil', 45, 'Ruta de montaña con elevación pronunciada hacia la Sierra Nevada');
+-- Puntos de interés Ruta Centro Histórico
+INSERT INTO [Punto_de_interes] ([Nombre], [Orden_secuencial_en_la_ruta], [coordenadas_geograficas], [Descripción]) 
+VALUES ('Catedral Basílica', 1, '11.2444,-74.2120', 'Iglesia más antigua de Colombia');
 
-INSERT INTO [Rutas] ([Nombre], [Nivel_de_dificultad], [Distancia_total], [Descripcion]) 
-VALUES ('Tour Centro Histórico', 'Moderado', 10, 'Recorrido cultural por el centro histórico de la ciudad');
+INSERT INTO [Punto_de_interes] ([Nombre], [Orden_secuencial_en_la_ruta], [coordenadas_geograficas], [Descripción]) 
+VALUES ('Casa de la Aduana', 2, '11.2450,-74.2115', 'Museo arqueológico Tayrona');
 
--- Tabla: Ruta_Prestador
-INSERT INTO [Ruta_Prestador] ([id_ruta], [id_prestador]) VALUES (1, 4);
-INSERT INTO [Ruta_Prestador] ([id_ruta], [id_prestador]) VALUES (2, 5);
-INSERT INTO [Ruta_Prestador] ([id_ruta], [id_prestador]) VALUES (3, 6);
+INSERT INTO [Punto_de_interes] ([Nombre], [Orden_secuencial_en_la_ruta], [coordenadas_geograficas], [Descripción]) 
+VALUES ('Parque Simón Bolívar', 3, '11.2441,-74.2108', 'Plaza principal del centro histórico');
 
--- Tabla: Punto_de_interés
-INSERT INTO [Punto_de_interés] ([Nombre], [Orden_secuencial_en_la_ruta], [coordenadas_geograficas], [Descripción], [id_Ruta]) 
-VALUES ('Playa El Rodadero', 1, '11.2094,-74.2272', 'Principal playa turística de Santa Marta', 1);
+-- RECORRIDO DE RUTA (Relación Ruta-Puntos de Interés)
+-- =============================================
 
-INSERT INTO [Punto_de_interés] ([Nombre], [Orden_secuencial_en_la_ruta], [coordenadas_geograficas], [Descripción], [id_Ruta]) 
-VALUES ('Mirador Alto de Mira', 2, '11.3200,-74.0800', 'Punto panorámico con vista a la ciudad y la sierra', 2);
+-- Ruta Playa y Mar
+INSERT INTO [Recorrido_de_ruta] ([id_recorrido_de_ruta], [id_ruta], [id_punto_de_interes]) VALUES (1, 1, 1);
+INSERT INTO [Recorrido_de_ruta] ([id_recorrido_de_ruta], [id_ruta], [id_punto_de_interes]) VALUES (2, 1, 2);
+INSERT INTO [Recorrido_de_ruta] ([id_recorrido_de_ruta], [id_ruta], [id_punto_de_interes]) VALUES (3, 1, 3);
 
-INSERT INTO [Punto_de_interés] ([Nombre], [Orden_secuencial_en_la_ruta], [coordenadas_geograficas], [Descripción], [id_Ruta]) 
-VALUES ('Catedral Basílica', 1, '11.2419,-74.2064', 'Edificación histórica colonial del siglo XVIII', 3);
+-- Ruta Sierra Nevada
+INSERT INTO [Recorrido_de_ruta] ([id_recorrido_de_ruta], [id_ruta], [id_punto_de_interes]) VALUES (4, 2, 4);
+INSERT INTO [Recorrido_de_ruta] ([id_recorrido_de_ruta], [id_ruta], [id_punto_de_interes]) VALUES (5, 2, 5);
+INSERT INTO [Recorrido_de_ruta] ([id_recorrido_de_ruta], [id_ruta], [id_punto_de_interes]) VALUES (6, 2, 6);
 
--- Tabla: Por_hora (debe coincidir con planes de tipo 1 - Por hora)
-INSERT INTO [Por_hora] ([id_plan], [Duracion_maxima], [Duracion_minima], [Tarifa_por_fraccion_adicional]) 
-VALUES (1, 4, 1, 2000);
+-- Ruta Centro Histórico
+INSERT INTO [Recorrido_de_ruta] ([id_recorrido_de_ruta], [id_ruta], [id_punto_de_interes]) VALUES (7, 3, 7);
+INSERT INTO [Recorrido_de_ruta] ([id_recorrido_de_ruta], [id_ruta], [id_punto_de_interes]) VALUES (8, 3, 8);
+INSERT INTO [Recorrido_de_ruta] ([id_recorrido_de_ruta], [id_ruta], [id_punto_de_interes]) VALUES (9, 3, 9);
 
-INSERT INTO [Por_hora] ([id_plan], [Duracion_maxima], [Duracion_minima], [Tarifa_por_fraccion_adicional]) 
-VALUES (2, 6, 2, 1500);
+-- TIPOS DE PERSONA
+-- =============================================
 
-INSERT INTO [Por_hora] ([id_plan], [Duracion_maxima], [Duracion_minima], [Tarifa_por_fraccion_adicional]) 
-VALUES (3, 8, 1, 2500);
+INSERT INTO [Tipo_de_persona] ([Nombre_tipo]) VALUES ('Usuario');
+INSERT INTO [Tipo_de_persona] ([Nombre_tipo]) VALUES ('Prestador de servicio');
 
--- Tabla: Por_dia (debe coincidir con planes de tipo 2 - Por día)
-INSERT INTO [Por_dia] ([id_plan], [Costo_extra_por_extender_al_dia_siguiente], [Hora_limite_de_devolución]) 
-VALUES (4, 15000, '20:00:00');
+-- PERSONAS
+-- =============================================
 
-INSERT INTO [Por_dia] ([id_plan], [Costo_extra_por_extender_al_dia_siguiente], [Hora_limite_de_devolución]) 
-VALUES (5, 20000, '22:00:00');
+-- Usuarios (tipo 1)
+INSERT INTO [Persona] ([nombre], [apellido], [fecha_nacimiento], [Sexo], [id_Tipo_de_persona]) 
+VALUES ('Carlos', 'Rodríguez', '1990-05-15', 'Masculino', 1);
 
-INSERT INTO [Por_dia] ([id_plan], [Costo_extra_por_extender_al_dia_siguiente], [Hora_limite_de_devolución]) 
-VALUES (6, 10000, '18:00:00');
+INSERT INTO [Persona] ([nombre], [apellido], [fecha_nacimiento], [Sexo], [id_Tipo_de_persona]) 
+VALUES ('María', 'González', '1985-08-22', 'Femenino', 1);
 
--- Tabla: Mensual (debe coincidir con planes de tipo 3 - Mensual)
-INSERT INTO [Mensual] ([id_plan], [Confirmación_de_reenovación_automatica], [Descuento_especial]) 
-VALUES (7, 'Si', 0.15);
+INSERT INTO [Persona] ([nombre], [apellido], [fecha_nacimiento], [Sexo], [id_Tipo_de_persona]) 
+VALUES ('Andrés', 'Martínez', '1995-03-10', 'Masculino', 1);
 
-INSERT INTO [Mensual] ([id_plan], [Confirmación_de_reenovación_automatica], [Descuento_especial]) 
-VALUES (8, 'No', 0.10);
+-- Prestadores de servicio (tipo 2)
+INSERT INTO [Persona] ([nombre], [apellido], [fecha_nacimiento], [Sexo], [id_Tipo_de_persona]) 
+VALUES ('Laura', 'Sánchez', '1988-11-30', 'Femenino', 2);
 
-INSERT INTO [Mensual] ([id_plan], [Confirmación_de_reenovación_automatica], [Descuento_especial]) 
-VALUES (9, 'Si', 0.20);
+INSERT INTO [Persona] ([nombre], [apellido], [fecha_nacimiento], [Sexo], [id_Tipo_de_persona]) 
+VALUES ('Pedro', 'Ramírez', '1982-07-18', 'Masculino', 2);
 
--- Tabla: Anual (debe coincidir con planes de tipo 5 - Anual)
-INSERT INTO [Anual] ([id_plan], [Confirmación_de_reenovación_automatica], [Descuento_especial]) 
-VALUES (13, 'Si', 0.25);
+INSERT INTO [Persona] ([nombre], [apellido], [fecha_nacimiento], [Sexo], [id_Tipo_de_persona]) 
+VALUES ('Sofia', 'Torres', '1991-12-05', 'Femenino', 2);
 
-INSERT INTO [Anual] ([id_plan], [Confirmación_de_reenovación_automatica], [Descuento_especial]) 
-VALUES (14, 'No', 0.20);
+-- CONTACTOS
+-- =============================================
 
-INSERT INTO [Anual] ([id_plan], [Confirmación_de_reenovación_automatica], [Descuento_especial]) 
-VALUES (15, 'Si', 0.30);
+INSERT INTO [Contacto] ([Numero_telefonico], [id_persona]) VALUES ('+57 301 2345678', 1);
+INSERT INTO [Contacto] ([Numero_telefonico], [id_persona]) VALUES ('+57 312 9876543', 2);
+INSERT INTO [Contacto] ([Numero_telefonico], [id_persona]) VALUES ('+57 320 5551234', 3);
+INSERT INTO [Contacto] ([Numero_telefonico], [id_persona]) VALUES ('+57 315 7778888', 4);
+INSERT INTO [Contacto] ([Numero_telefonico], [id_persona]) VALUES ('+57 300 4445555', 5);
+INSERT INTO [Contacto] ([Numero_telefonico], [id_persona]) VALUES ('+57 311 2223333', 6);
 
--- Tabla: Semanal (debe coincidir con planes de tipo 4 - Semanal)
-INSERT INTO [Semanal] ([id_plan], [Número_de_semanas_inlcluidas], [Días_especificos_en_que_aplica]) 
-VALUES (10, 1, 'Lunes a Viernes');
+-- USUARIOS
+-- =============================================
 
-INSERT INTO [Semanal] ([id_plan], [Número_de_semanas_inlcluidas], [Días_especificos_en_que_aplica]) 
-VALUES (11, 2, 'Todos los días');
+INSERT INTO [Usuario] ([id_persona], [correo], [Contraseña]) 
+VALUES (1, 'carlos.rodriguez@email.com', 'Pass123$Carlos');
 
-INSERT INTO [Semanal] ([id_plan], [Número_de_semanas_inlcluidas], [Días_especificos_en_que_aplica]) 
-VALUES (12, 4, 'Fines de semana');
+INSERT INTO [Usuario] ([id_persona], [correo], [Contraseña]) 
+VALUES (2, 'maria.gonzalez@email.com', 'MariaSecure456!');
 
--- Tabla: Seguro
+INSERT INTO [Usuario] ([id_persona], [correo], [Contraseña]) 
+VALUES (3, 'andres.martinez@email.com', 'AndresPass789#');
+
+-- PRESTADORES DE SERVICIO
+-- =============================================
+
+INSERT INTO [Prestador_de_servicio] ([id_persona], [Tipo_de_servicio], [id_Punto_de_alquiler], [id_ruta]) 
+VALUES (4, 'Encargado de Estación', 1, NULL);
+
+INSERT INTO [Prestador_de_servicio] ([id_persona], [Tipo_de_servicio], [id_Punto_de_alquiler], [id_ruta]) 
+VALUES (5, 'Guía Turístico', NULL, 2);
+
+INSERT INTO [Prestador_de_servicio] ([id_persona], [Tipo_de_servicio], [id_Punto_de_alquiler], [id_ruta]) 
+VALUES (6, 'Técnico de Mantenimiento', 3, NULL);
+
+-- PLANES
+-- =============================================
+
+INSERT INTO [Plan] ([nombre_comercial_del_plan], [descuentos_aplicables], [indicador_si_incluye_seguro], [categoria_de_bicicletas_incluidas], [duración_incluida], [tipo_de_plan], [Descripcion], [estado_del_plan], [precio_del_paquete], [beneficios_adicionales], [restricciones_de_uso]) 
+VALUES ('Plan Básico', 0, 'No', 'Urbana', 'Una hora', 'Por Horas', 'Plan ideal para recorridos cortos en la ciudad', 'Activo', 15000, 'Mapa de rutas incluido', 'Máximo 3 horas continuas');
+
+INSERT INTO [Plan] ([nombre_comercial_del_plan], [descuentos_aplicables], [indicador_si_incluye_seguro], [categoria_de_bicicletas_incluidas], [duración_incluida], [tipo_de_plan], [Descripcion], [estado_del_plan], [precio_del_paquete], [beneficios_adicionales], [restricciones_de_uso]) 
+VALUES ('Plan Aventurero', 15, 'Sí', 'Montaña', 'Un día', 'Día Completo', 'Plan perfecto para rutas de montaña con seguro incluido', 'Activo', 80000, 'Seguro contra daños, guía turístico disponible, kit de herramientas', 'Retorno el mismo día');
+
+INSERT INTO [Plan] ([nombre_comercial_del_plan], [descuentos_aplicables], [indicador_si_incluye_seguro], [categoria_de_bicicletas_incluidas], [duración_incluida], [tipo_de_plan], [Descripcion], [estado_del_plan], [precio_del_paquete], [beneficios_adicionales], [restricciones_de_uso]) 
+VALUES ('Plan Premium', 20, 'Sí', 'Todas', 'Una semana', 'Semanal', 'Plan completo con acceso a todas las bicicletas', 'Activo', 250000, 'Seguro premium, 2 cambios de bicicleta sin costo, mantenimiento incluido', 'Sin restricciones');
+
+-- SEGUROS
+-- =============================================
+
 INSERT INTO [Seguro] ([Nombre], [Monto_maximo_de_indemnización], [Precio_del_plan], [Descripción], [Periodo_de_vigencia], [Descripción_de_daños_cubiertos], [Terminos_y_condiciones]) 
-VALUES ('Seguro Básico', 500000.00, 15000.00, 'Cobertura básica contra daños y robo', '2025-12-31', 'Cubre daños menores, robo parcial', 'Deducible del 10%. Válido solo en territorio nacional');
+VALUES ('Seguro Básico', 500000.00, 10000.00, 'Cobertura básica contra daños', '2025-01-01 00:00:00', 'Daños menores a componentes', 'Aplica deducible del 20%');
 
 INSERT INTO [Seguro] ([Nombre], [Monto_maximo_de_indemnización], [Precio_del_plan], [Descripción], [Periodo_de_vigencia], [Descripción_de_daños_cubiertos], [Terminos_y_condiciones]) 
-VALUES ('Seguro Premium', 1500000.00, 35000.00, 'Cobertura completa todo riesgo', '2025-12-31', 'Cubre todo tipo de daños, robo total, accidentes', 'Sin deducible. Cobertura internacional');
+VALUES ('Seguro Completo', 2000000.00, 35000.00, 'Cobertura total contra daños y robo', '2025-01-01 00:00:00', 'Robo, daños mayores, accidentes personales', 'Sin deducible para daños, cobertura 100%');
 
 INSERT INTO [Seguro] ([Nombre], [Monto_maximo_de_indemnización], [Precio_del_plan], [Descripción], [Periodo_de_vigencia], [Descripción_de_daños_cubiertos], [Terminos_y_condiciones]) 
-VALUES ('Seguro Estándar', 1000000.00, 25000.00, 'Cobertura intermedia contra riesgos comunes', '2025-12-31', 'Cubre daños moderados, robo con denuncia', 'Deducible del 5%. Válido en ciudades principales');
+VALUES ('Seguro Premium', 5000000.00, 60000.00, 'Máxima cobertura con asistencia 24/7', '2025-01-01 00:00:00', 'Todas las eventualidades, asistencia médica', 'Cobertura internacional, asistencia inmediata');
 
--- Tabla: Tarifa_base
-INSERT INTO [Tarifa_base] ([Tipo_de_uso], [Tipo_de_asistencia], [Precio_base]) 
-VALUES ('urbana', 'Convencional', 45000);
+-- TIPO DE BICICLETA
+-- =============================================
 
-INSERT INTO [Tarifa_base] ([Tipo_de_uso], [Tipo_de_asistencia], [Precio_base]) 
-VALUES ('montaña', 'Eléctrica', 120000);
+INSERT INTO [Tipo_de_bicicleta] ([Tipo_de_uso], [Tipo_de_asistencia]) 
+VALUES ('Urbana', 'Manual');
 
-INSERT INTO [Tarifa_base] ([Tipo_de_uso], [Tipo_de_asistencia], [Precio_base]) 
-VALUES ('de ruta', 'Convencional', 70000);
+INSERT INTO [Tipo_de_bicicleta] ([Tipo_de_uso], [Tipo_de_asistencia]) 
+VALUES ('Montaña', 'Manual');
 
--- Tabla: Bicicleta (Ahora con planes diferentes)
-INSERT INTO [Bicicleta] ([Numero_de_serie], [Marca], [Modelo], [Año_de_fabricacion], [foto], [suspensión], [tipo_de_llantas], [peso], [id_punto_de_alquiler], [id_plan], [id_Seguro], [id_tarifa_base]) 
-VALUES (1001, 'Trek', 'FX 3 Disc', '2023-01-01', 'https://ejemplo.com/trek_fx3.jpg', 'Delantera con bloqueo', 'Llantas híbridas 700c', 12.50, 1, 1, 1, 1);
+INSERT INTO [Tipo_de_bicicleta] ([Tipo_de_uso], [Tipo_de_asistencia]) 
+VALUES ('Eléctrica', 'Asistida');
 
-INSERT INTO [Bicicleta] ([Numero_de_serie], [Marca], [Modelo], [Año_de_fabricacion], [foto], [suspensión], [tipo_de_llantas], [peso], [id_punto_de_alquiler], [id_plan], [id_Seguro], [id_tarifa_base]) 
-VALUES (1002, 'Giant', 'Trance X E+', '2024-01-01', 'https://ejemplo.com/giant_trance.jpg', 'Doble suspensión', 'Llantas MTB 29 pulgadas', 22.80, 2, 4, 2, 2);
+-- TARIFA BASE
+-- =============================================
 
-INSERT INTO [Bicicleta] ([Numero_de_serie], [Marca], [Modelo], [Año_de_fabricacion], [foto], [suspensión], [tipo_de_llantas], [peso], [id_punto_de_alquiler], [id_plan], [id_Seguro], [id_tarifa_base]) 
-VALUES (1003, 'Specialized', 'Roubaix Sport', '2023-06-01', 'https://ejemplo.com/specialized_roubaix.jpg', 'Sin suspensión', 'Llantas de ruta 700x25c', 9.20, 3, 7, 3, 3);
+INSERT INTO [Tarifa_base] ([Precio_base], [id_tipo_de_bicicleta]) VALUES (5000, 1);
+INSERT INTO [Tarifa_base] ([Precio_base], [id_tipo_de_bicicleta]) VALUES (8000, 2);
+INSERT INTO [Tarifa_base] ([Precio_base], [id_tipo_de_bicicleta]) VALUES (12000, 3);
 
--- Tabla: Mantenimiento
+-- REGLA OPERATIVA
+-- =============================================
+
+INSERT INTO [Regla_operativa] ([porcentaje_de_recargo_retraso], [porcentaje_de_recargo_por_punto_diferente], [duración_máxima_de_alquiler_continuo], [disponibilidad_para_alquiler_de_largo_plazo], [estado_de_la_configuración], [restricciones_especiales_de_uso]) 
+VALUES (10, 15, 12, 'Sí', 'Activa', 'Usuarios mayores de 18 años');
+
+INSERT INTO [Regla_operativa] ([porcentaje_de_recargo_retraso], [porcentaje_de_recargo_por_punto_diferente], [duración_máxima_de_alquiler_continuo], [disponibilidad_para_alquiler_de_largo_plazo], [estado_de_la_configuración], [restricciones_especiales_de_uso]) 
+VALUES (15, 20, 24, 'Sí', 'Activa', 'Requiere licencia de conducción para bicicletas eléctricas');
+
+INSERT INTO [Regla_operativa] ([porcentaje_de_recargo_retraso], [porcentaje_de_recargo_por_punto_diferente], [duración_máxima_de_alquiler_continuo], [disponibilidad_para_alquiler_de_largo_plazo], [estado_de_la_configuración], [restricciones_especiales_de_uso]) 
+VALUES (20, 25, 8, 'No', 'Activa', 'Solo para uso en rutas autorizadas');
+
+-- BICICLETAS
+-- =============================================
+
+-- Bicicletas Urbanas en Estación Rodadero
+INSERT INTO [Bicicleta] ([Numero_de_serie], [Marca], [Modelo], [Año_de_fabricacion], [foto], [suspensión], [tipo_de_llantas], [peso], [id_tipo_de_bicicleta], [id_punto_de_alquiler], [id_Seguro], [id_tarifa_base], [id_regla_operativa]) 
+VALUES (1001, 'Trek', 'FX 2', '2023-01-01', 'trek_fx2.jpg', 'Delantera', 'Híbridas 700c', 12.50, 1, 1, 1, 1, 1);
+
+INSERT INTO [Bicicleta] ([Numero_de_serie], [Marca], [Modelo], [Año_de_fabricacion], [foto], [suspensión], [tipo_de_llantas], [peso], [id_tipo_de_bicicleta], [id_punto_de_alquiler], [id_Seguro], [id_tarifa_base], [id_regla_operativa]) 
+VALUES (1002, 'Giant', 'Escape 3', '2023-01-01', 'giant_escape3.jpg', 'Sin suspensión', 'Híbridas 700c', 11.80, 1, 1, 1, 1, 1);
+
+INSERT INTO [Bicicleta] ([Numero_de_serie], [Marca], [Modelo], [Año_de_fabricacion], [foto], [suspensión], [tipo_de_llantas], [peso], [id_tipo_de_bicicleta], [id_punto_de_alquiler], [id_Seguro], [id_tarifa_base], [id_regla_operativa]) 
+VALUES (1003, 'Specialized', 'Sirrus', '2023-01-01', 'specialized_sirrus.jpg', 'Delantera', 'Urbanas 700c', 13.20, 1, 1, NULL, 1, 1);
+
+-- Bicicletas de Montaña en Estación Tayrona
+INSERT INTO [Bicicleta] ([Numero_de_serie], [Marca], [Modelo], [Año_de_fabricacion], [foto], [suspensión], [tipo_de_llantas], [peso], [id_tipo_de_bicicleta], [id_punto_de_alquiler], [id_Seguro], [id_tarifa_base], [id_regla_operativa]) 
+VALUES (2001, 'Scott', 'Aspect 950', '2023-01-01', 'scott_aspect950.jpg', 'Doble', 'MTB 29"', 14.50, 2, 2, 2, 2, 2);
+
+INSERT INTO [Bicicleta] ([Numero_de_serie], [Marca], [Modelo], [Año_de_fabricacion], [foto], [suspensión], [tipo_de_llantas], [peso], [id_tipo_de_bicicleta], [id_punto_de_alquiler], [id_Seguro], [id_tarifa_base], [id_regla_operativa]) 
+VALUES (2002, 'Cannondale', 'Trail 7', '2023-01-01', 'cannondale_trail7.jpg', 'Doble', 'MTB 27.5"', 13.90, 2, 2, 2, 2, 2);
+
+INSERT INTO [Bicicleta] ([Numero_de_serie], [Marca], [Modelo], [Año_de_fabricacion], [foto], [suspensión], [tipo_de_llantas], [peso], [id_tipo_de_bicicleta], [id_punto_de_alquiler], [id_Seguro], [id_tarifa_base], [id_regla_operativa]) 
+VALUES (2003, 'Trek', 'Marlin 6', '2023-01-01', 'trek_marlin6.jpg', 'Delantera', 'MTB 29"', 13.70, 2, 2, NULL, 2, 2);
+
+-- Bicicletas Eléctricas en Estación Centro
+INSERT INTO [Bicicleta] ([Numero_de_serie], [Marca], [Modelo], [Año_de_fabricacion], [foto], [suspensión], [tipo_de_llantas], [peso], [id_tipo_de_bicicleta], [id_punto_de_alquiler], [id_Seguro], [id_tarifa_base], [id_regla_operativa]) 
+VALUES (3001, 'Rad Power', 'RadCity 5', '2024-01-01', 'rad_city5.jpg', 'Delantera', 'Híbridas 700c', 29.50, 3, 3, 3, 3, 2);
+
+INSERT INTO [Bicicleta] ([Numero_de_serie], [Marca], [Modelo], [Año_de_fabricacion], [foto], [suspensión], [tipo_de_llantas], [peso], [id_tipo_de_bicicleta], [id_punto_de_alquiler], [id_Seguro], [id_tarifa_base], [id_regla_operativa]) 
+VALUES (3002, 'Specialized', 'Turbo Vado', '2024-01-01', 'specialized_vado.jpg', 'Delantera', 'Urbanas 700c', 26.80, 3, 3, 3, 3, 2);
+
+INSERT INTO [Bicicleta] ([Numero_de_serie], [Marca], [Modelo], [Año_de_fabricacion], [foto], [suspensión], [tipo_de_llantas], [peso], [id_tipo_de_bicicleta], [id_punto_de_alquiler], [id_Seguro], [id_tarifa_base], [id_regla_operativa]) 
+VALUES (3003, 'Giant', 'Explore E+', '2024-01-01', 'giant_explore.jpg', 'Delantera', 'Híbridas 700c', 27.30, 3, 3, NULL, 3, 2);
+
+-- RESERVAS
+-- =============================================
+
+INSERT INTO [Reserva] ([fecha_de_inicio_de_reserva], [fecha_de_hora_de_reserva], [fecha_de_fin_esperada], [estado_de_la_reserva], [hora_de_devolución_real], [fecha_de_devolución_real], [hora_de_fin_esperada], [costo_total_reserva_caluclado], [id_plan], [id_usuario], [id_bicicleta], [id_punto_de_alquiler], [id_ruta]) 
+VALUES ('2024-11-01', '2024-11-01', '2024-11-01', 'Completada', '2024-11-01 12:00:00', '2024-11-01', '2024-11-01 11:00:00', 15000, 1, 1, 1, 1, 1);
+
+INSERT INTO [Reserva] ([fecha_de_inicio_de_reserva], [fecha_de_hora_de_reserva], [fecha_de_fin_esperada], [estado_de_la_reserva], [hora_de_devolución_real], [fecha_de_devolución_real], [hora_de_fin_esperada], [costo_total_reserva_caluclado], [id_plan], [id_usuario], [id_bicicleta], [id_punto_de_alquiler], [id_ruta]) 
+VALUES ('2024-11-05', '2024-11-05', '2024-11-05', 'Completada', '2024-11-05 18:30:00', '2024-11-05', '2024-11-05 18:00:00', 80000, 2, 2, 2, 2, 2);
+
+INSERT INTO [Reserva] ([fecha_de_inicio_de_reserva], [fecha_de_hora_de_reserva], [fecha_de_fin_esperada], [estado_de_la_reserva], [hora_de_devolución_real], [fecha_de_devolución_real], [hora_de_fin_esperada], [costo_total_reserva_caluclado], [id_plan], [id_usuario], [id_bicicleta], [id_punto_de_alquiler], [id_ruta]) 
+VALUES ('2024-11-10', '2024-11-10', '2024-11-17', 'Activa', '2024-11-17 20:00:00', '2024-11-17', '2024-11-17 20:00:00', 250000, 3, 3, 3, 3, 3);
+
+-- MANTENIMIENTO
+-- =============================================
+
 INSERT INTO [Mantenimiento] ([Fecha_de_mantenimiento], [Kilometraje_recorrido], [Tipo_de_mantenimiento], [Descripcion], [id_bicicleta]) 
-VALUES ('2024-10-15', 500, 'Preventivo', 'Revisión general y lubricación de cadena',1);
+VALUES ('2024-10-15 10:00:00', 500, 'Preventivo', 'Revisión general y lubricación', 1);
 
 INSERT INTO [Mantenimiento] ([Fecha_de_mantenimiento], [Kilometraje_recorrido], [Tipo_de_mantenimiento], [Descripcion], [id_bicicleta]) 
-VALUES ('2024-11-01', 1200, 'Correctivo', 'Cambio de pastillas de freno y ajuste',2);
+VALUES ('2024-10-20 14:30:00', 1200, 'Correctivo', 'Cambio de pastillas de freno', 2);
 
 INSERT INTO [Mantenimiento] ([Fecha_de_mantenimiento], [Kilometraje_recorrido], [Tipo_de_mantenimiento], [Descripcion], [id_bicicleta]) 
-VALUES ('2024-09-20', 800, 'Preventivo', 'Calibración de cambios y revisión',3);
+VALUES ('2024-11-01 09:00:00', 300, 'Preventivo', 'Ajuste de cambios y tensión cadena', 3);
 
--- Tabla: Tipo_de_metodo
+-- TIPO DE MÉTODO DE PAGO
+-- =============================================
+
 INSERT INTO [Tipo_de_metodo] ([Nombre]) VALUES ('Tarjeta');
 INSERT INTO [Tipo_de_metodo] ([Nombre]) VALUES ('Billetera virtual');
 INSERT INTO [Tipo_de_metodo] ([Nombre]) VALUES ('Efectivo');
 
--- Tabla: Metodo_de_pago (Necesitamos métodos de pago únicos)
+-- MÉTODO DE PAGO
+-- =============================================
+
 INSERT INTO [Metodo_de_pago] ([fecha_Registro], [fecha_modificacion], [id_tipo_de_metodo]) 
 VALUES ('2024-01-15', '2024-01-15', 1);
 
 INSERT INTO [Metodo_de_pago] ([fecha_Registro], [fecha_modificacion], [id_tipo_de_metodo]) 
-VALUES ('2024-02-10', '2024-02-10', 1);
+VALUES ('2024-02-20', '2024-02-20', 1);
 
 INSERT INTO [Metodo_de_pago] ([fecha_Registro], [fecha_modificacion], [id_tipo_de_metodo]) 
-VALUES ('2024-03-05', '2024-03-05', 1);
+VALUES ('2024-03-10', '2024-03-10', 2);
 
 INSERT INTO [Metodo_de_pago] ([fecha_Registro], [fecha_modificacion], [id_tipo_de_metodo]) 
-VALUES ('2024-03-20', '2024-05-10', 2);
+VALUES ('2024-04-05', '2024-04-05', 2);
 
 INSERT INTO [Metodo_de_pago] ([fecha_Registro], [fecha_modificacion], [id_tipo_de_metodo]) 
-VALUES ('2024-04-15', '2024-04-15', 2);
+VALUES ('2024-05-12', '2024-05-12', 3);
 
 INSERT INTO [Metodo_de_pago] ([fecha_Registro], [fecha_modificacion], [id_tipo_de_metodo]) 
-VALUES ('2024-05-20', '2024-05-20', 2);
+VALUES ('2024-06-18', '2024-06-18', 3);
 
-INSERT INTO [Metodo_de_pago] ([fecha_Registro], [fecha_modificacion], [id_tipo_de_metodo]) 
-VALUES ('2024-06-01', '2024-06-01', 3);
-
-INSERT INTO [Metodo_de_pago] ([fecha_Registro], [fecha_modificacion], [id_tipo_de_metodo]) 
-VALUES ('2024-07-10', '2024-07-10', 3);
-
-INSERT INTO [Metodo_de_pago] ([fecha_Registro], [fecha_modificacion], [id_tipo_de_metodo]) 
-VALUES ('2024-08-05', '2024-08-05', 3);
-
--- Tabla: Efectivo (id_metodo_pago 7, 8, 9 son de tipo Efectivo)
-INSERT INTO [Efectivo] ([id_metodo_pago], [Codigo_recibo]) 
-VALUES (7, 'REC-2024-001-SM');
-
-INSERT INTO [Efectivo] ([id_metodo_pago], [Codigo_recibo]) 
-VALUES (8, 'REC-2024-002-SM');
-
-INSERT INTO [Efectivo] ([id_metodo_pago], [Codigo_recibo]) 
-VALUES (9, 'REC-2024-003-SM');
-
--- Tabla: Tarjeta (id_metodo_pago 1, 2, 3 son de tipo Tarjeta)
-INSERT INTO [Tarjeta] ([id_metodo_de_pago], [Franquicia], [Tipo], [numero_de_enmascarado], [Titular]) 
-VALUES (1, 'Visa', 'Crédito', '**** **** **** 1234', 'Carlos Martínez');
+-- TARJETA
+-- =============================================
 
 INSERT INTO [Tarjeta] ([id_metodo_de_pago], [Franquicia], [Tipo], [numero_de_enmascarado], [Titular]) 
-VALUES (2, 'MasterCard', 'Débito', '**** **** **** 5678', 'Miguel Rodríguez');
+VALUES (1, 'Visa', 'Crédito', '**** **** **** 1234', 'Carlos Rodríguez');
 
 INSERT INTO [Tarjeta] ([id_metodo_de_pago], [Franquicia], [Tipo], [numero_de_enmascarado], [Titular]) 
-VALUES (3, 'American Express', 'Crédito', '**** ****** *9012', 'Laura Pérez');
+VALUES (2, 'MasterCard', 'Débito', '**** **** **** 5678', 'María González');
 
--- Tabla: Billetera_virtual (id_metodo_pago 4, 5, 6 son de tipo Billetera virtual)
-INSERT INTO [Billetera_virtual] ([id_metodo_de_pago], [Identificador_de_cuenta], [Proveedor]) 
-VALUES (4, 'carlos.martinez@paypal.com', 'PayPal');
-
-INSERT INTO [Billetera_virtual] ([id_metodo_de_pago], [Identificador_de_cuenta], [Proveedor]) 
-VALUES (5, 'miguel.rodriguez@paypal.com', 'PayPal');
+-- BILLETERA VIRTUAL
+-- =============================================
 
 INSERT INTO [Billetera_virtual] ([id_metodo_de_pago], [Identificador_de_cuenta], [Proveedor]) 
-VALUES (6, 'laura.perez@paypal.com', 'PayPal');
+VALUES (3, 'andres.martinez@paypal.com', 'PayPal');
 
--- Tabla: Métodos_de_pago_del_usuario (Cada método de pago es único)
+INSERT INTO [Billetera_virtual] ([id_metodo_de_pago], [Identificador_de_cuenta], [Proveedor]) 
+VALUES (4, 'carlos.rodriguez@paypal.com', 'PayPal');
+
+-- EFECTIVO
+-- =============================================
+
+INSERT INTO [Efectivo] ([id_metodo_pago], [Codigo_recibo]) 
+VALUES (5, 'REC-2024-001-ABC123');
+
+INSERT INTO [Efectivo] ([id_metodo_pago], [Codigo_recibo]) 
+VALUES (6, 'REC-2024-002-XYZ789');
+
+-- MÉTODOS DE PAGO DEL USUARIO
+-- =============================================
+
 INSERT INTO [Métodos_de_pago_del_usuario] ([id_usuario], [id_metodo_pago]) VALUES (1, 1);
 INSERT INTO [Métodos_de_pago_del_usuario] ([id_usuario], [id_metodo_pago]) VALUES (1, 4);
 INSERT INTO [Métodos_de_pago_del_usuario] ([id_usuario], [id_metodo_pago]) VALUES (2, 2);
@@ -335,22 +373,68 @@ INSERT INTO [Métodos_de_pago_del_usuario] ([id_usuario], [id_metodo_pago]) VALU
 INSERT INTO [Métodos_de_pago_del_usuario] ([id_usuario], [id_metodo_pago]) VALUES (3, 3);
 INSERT INTO [Métodos_de_pago_del_usuario] ([id_usuario], [id_metodo_pago]) VALUES (3, 6);
 
--- Tabla: Reseña (Actualizar referencias de prestadores)
-INSERT INTO [Reseña] ([Calificación], [Fecha_de_publicación], [Texto_de_comentario], [Estado_de_revisión], [id_Usuario], [id_Prestador_de_servicio], [id_Ruta], [id_Bicicleta]) 
-VALUES (4.5, '2024-11-01', 'Excelente servicio, la bicicleta estaba en perfectas condiciones', 'Aprobada', 1, NULL, NULL, 1);
+-- OBJETO RESEÑABLE
+-- =============================================
 
-INSERT INTO [Reseña] ([Calificación], [Fecha_de_publicación], [Texto_de_comentario], [Estado_de_revisión], [id_Usuario], [id_Prestador_de_servicio], [id_Ruta], [id_Bicicleta]) 
-VALUES (5.0, '2024-10-28', 'La ruta costera es hermosa, totalmente recomendada para familias', 'Aprobada', 2, NULL, 1, NULL);
+-- Bicicletas reseñables
+INSERT INTO [Objeto_reseñable] ([id_bicicleta], [id_persona], [id_ruta]) VALUES (1, NULL, NULL);
+INSERT INTO [Objeto_reseñable] ([id_bicicleta], [id_persona], [id_ruta]) VALUES (2, NULL, NULL);
+INSERT INTO [Objeto_reseñable] ([id_bicicleta], [id_persona], [id_ruta]) VALUES (3, NULL, NULL);
 
-INSERT INTO [Reseña] ([Calificación], [Fecha_de_publicación], [Texto_de_comentario], [Estado_de_revisión], [id_Usuario], [id_Prestador_de_servicio], [id_Ruta], [id_Bicicleta]) 
-VALUES (4.0, '2024-11-05', 'El prestador de servicio fue muy atento y profesional', 'Pendiente', 3, 4, NULL, NULL);
+-- Prestadores de servicio reseñables
+INSERT INTO [Objeto_reseñable] ([id_bicicleta], [id_persona], [id_ruta]) VALUES (NULL, 4, NULL);
+INSERT INTO [Objeto_reseñable] ([id_bicicleta], [id_persona], [id_ruta]) VALUES (NULL, 5, NULL);
+INSERT INTO [Objeto_reseñable] ([id_bicicleta], [id_persona], [id_ruta]) VALUES (NULL, 6, NULL);
 
--- Tabla: Multimedia
-INSERT INTO [Multimedia] ([Estado_de_revision], [Tamaño], [Formato_de_archivo], [Fecha_de_subida], [Foto_o_video], [idReseña]) 
-VALUES ('Aprobado', 2500000, 'JPG', '2024-11-01', 'https://ejemplo.com/multimedia/foto1.jpg', 1);
+-- Rutas reseñables
+INSERT INTO [Objeto_reseñable] ([id_bicicleta], [id_persona], [id_ruta]) VALUES (NULL, NULL, 1);
+INSERT INTO [Objeto_reseñable] ([id_bicicleta], [id_persona], [id_ruta]) VALUES (NULL, NULL, 2);
+INSERT INTO [Objeto_reseñable] ([id_bicicleta], [id_persona], [id_ruta]) VALUES (NULL, NULL, 3);
 
-INSERT INTO [Multimedia] ([Estado_de_revision], [Tamaño], [Formato_de_archivo], [Fecha_de_subida], [Foto_o_video], [idReseña]) 
-VALUES ('Aprobado', 15000000, 'MP4', '2024-10-28', 'https://ejemplo.com/multimedia/video_ruta.mp4', 2);
+-- MULTIMEDIA
+-- =============================================
 
-INSERT INTO [Multimedia] ([Estado_de_revision], [Tamaño], [Formato_de_archivo], [Fecha_de_subida], [Foto_o_video], [idReseña]) 
-VALUES ('Pendiente', 3200000, 'PNG', '2024-11-05', 'https://ejemplo.com/multimedia/foto_servicio.png', 3);
+INSERT INTO [Multimedia] ([Estado_de_revision], [Tamaño], [Formato_de_archivo], [Fecha_de_subida], [Foto_o_video]) 
+VALUES ('Aprobado', 2048576, 'JPG', '2024-11-02', 'foto_bicicleta_trek_1001.jpg');
+
+INSERT INTO [Multimedia] ([Estado_de_revision], [Tamaño], [Formato_de_archivo], [Fecha_de_subida], [Foto_o_video]) 
+VALUES ('Aprobado', 15728640, 'MP4', '2024-11-06', 'video_ruta_sierra_nevada.mp4');
+
+INSERT INTO [Multimedia] ([Estado_de_revision], [Tamaño], [Formato_de_archivo], [Fecha_de_subida], [Foto_o_video]) 
+VALUES ('Pendiente', 3145728, 'PNG', '2024-11-12', 'foto_guia_turistico.png');
+
+-- RESEÑA
+-- =============================================
+
+INSERT INTO [Reseña] ([Calificación], [Fecha_de_publicación], [Texto_de_comentario], [Estado_de_revisión], [id_usuario], [id_multimedia], [id_objeto_reseñable]) 
+VALUES (4.5, '2024-11-02', 'Excelente bicicleta, muy cómoda para recorridos urbanos. La recomiendo totalmente.', 'Aprobada', 1, 1, 1);
+
+INSERT INTO [Reseña] ([Calificación], [Fecha_de_publicación], [Texto_de_comentario], [Estado_de_revisión], [id_usuario], [id_multimedia], [id_objeto_reseñable]) 
+VALUES (5.0, '2024-11-06', 'La ruta Sierra Nevada es increíble, paisajes hermosos y bien señalizada. El guía fue muy profesional.', 'Aprobada', 2, 2, 2);
+
+INSERT INTO [Reseña] ([Calificación], [Fecha_de_publicación], [Texto_de_comentario], [Estado_de_revisión], [id_usuario], [id_multimedia], [id_objeto_reseñable]) 
+VALUES (4.0, '2024-11-12', 'Buen servicio en general, las bicicletas eléctricas son muy potentes.', 'Pendiente', 3, 3, 3);
+
+-- INCIDENTE
+-- =============================================
+
+INSERT INTO [Incidente] ([tipo_de_incidente], [descripción], [ubicación_donde_ocurrio], [fecha_de_incidente], [foto], [prioridad], [estado_de_incidente], [hora_de_incidente], [id_persona], [id_reserva]) 
+VALUES ('Pinchazo', 'Pinchazo en llanta trasera en el kilómetro 3 de la ruta', 'Carretera a Minca, km 3', '2024-11-05', NULL, 'Media', 'Resuelto', '2024-11-05 14:30:00', 5, 2);
+
+INSERT INTO [Incidente] ([tipo_de_incidente], [descripción], [ubicación_donde_ocurrio], [fecha_de_incidente], [foto], [prioridad], [estado_de_incidente], [hora_de_incidente], [id_persona], [id_reserva]) 
+VALUES ('Falla mecánica', 'Problemas con el cambio de velocidades, no cambia correctamente', 'Estación Rodadero', '2024-11-01', NULL, 'Baja', 'Resuelto', '2024-11-01 11:45:00', 4, 1);
+
+INSERT INTO [Incidente] ([tipo_de_incidente], [descripción], [ubicación_donde_ocurrio], [fecha_de_incidente], [foto], [prioridad], [estado_de_incidente], [hora_de_incidente], [id_persona], [id_reserva]) 
+VALUES ('Batería baja', 'La batería de la bicicleta eléctrica se descargó más rápido de lo esperado', 'Centro Histórico', '2024-11-11', NULL, 'Alta', 'En proceso', '2024-11-11 16:00:00', 6, 3);
+
+-- TRANSACCIÓN
+-- =============================================
+
+INSERT INTO [Transaccion] ([monto_total_cobrado], [tipo_de_transacción], [observaciones_adicionales], [fecha_de_transacción], [hora_de_transacción], [estado_de_transacción], [referencia_de_pago], [id_reserva]) 
+VALUES (15000, 'Pago de reserva', 'Pago completo realizado con tarjeta Visa', '2024-11-01', '2024-11-01 08:00:00', 'Completada', 'TRX-2024-001-VISA', 1);
+
+INSERT INTO [Transaccion] ([monto_total_cobrado], [tipo_de_transacción], [observaciones_adicionales], [fecha_de_transacción], [hora_de_transacción], [estado_de_transacción], [referencia_de_pago], [id_reserva]) 
+VALUES (80000, 'Pago de reserva', 'Pago completo más cargo adicional por retraso en devolución', '2024-11-05', '2024-11-05 10:30:00', 'Completada', 'TRX-2024-002-MCARD', 2);
+
+INSERT INTO [Transaccion] ([monto_total_cobrado], [tipo_de_transacción], [observaciones_adicionales], [fecha_de_transacción], [hora_de_transacción], [estado_de_transacción], [referencia_de_pago], [id_reserva]) 
+VALUES (250000, 'Pago de reserva', 'Pago plan semanal con descuento del 20% aplicado', '2024-11-10', '2024-11-10 09:15:00', 'Completada', 'TRX-2024-003-PAYPAL', 3);

@@ -1,10 +1,9 @@
 -- Borrar tablas que tienen claves foráneas a otras
 -- Se listan en orden inverso de sus dependencias para evitar errores de restricción.
-
 DROP TABLE [Transaccion];
 DROP TABLE [Incidente];
-DROP TABLE [Multimedia];
 DROP TABLE [Reseña];
+DROP TABLE [Multimedia];
 DROP TABLE [Objeto_reseñable];
 
 -- Métodos de pago y sus subtipos
@@ -28,7 +27,6 @@ DROP TABLE [Plan];
 -- Rutas y Puntos de Interés
 DROP TABLE [Recorrido_de_ruta];
 DROP TABLE [Punto_de_interes];
-DROP TABLE [Ruta_turistica];
 
 -- Personas y sus subtipos
 DROP TABLE [Prestador_de_servicio];
@@ -40,8 +38,8 @@ DROP TABLE [Tipo_de_persona];
 -- Puntos de Alquiler y Horarios
 DROP TABLE [Horario_punto];
 DROP TABLE [Horario_de_atencion];
+DROP TABLE [Ruta_turistica];
 DROP TABLE [Punto_de_alquiler];
-
 -- Estructura Geográfica (País, Departamento, Ciudad)
 DROP TABLE [Ciudad];
 DROP TABLE [Departamento];

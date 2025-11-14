@@ -29,7 +29,7 @@ CREATE TABLE [Plan] (
 	[descuentos_aplicables] float(53) NOT NULL,
 	[indicador_si_incluye_seguro] nvarchar(max) NOT NULL,
 	[categoria_de_bicicletas_incluidas] nvarchar(max) NOT NULL,
-	[duración_incluida] datetime NOT NULL,
+	[duración_incluida] NVARCHAR(max) NOT NULL,
 	[tipo_de_plan] nvarchar(max) NOT NULL,
 	[Descripcion] nvarchar(max) NOT NULL,
 	[estado_del_plan] nvarchar(50) NOT NULL,
